@@ -36,7 +36,9 @@ where = ["src"]
 [dependency-groups]
 dev = [
     "basedpyright>=1.31.3",
+    "pyinstaller>=6.11.0; python_version < '3.16'",
     "pytest>=8.4.2",
+    "pytest-cov>=7.0.0",
     "ruff>=0.13.1",
 ]
 

@@ -4,7 +4,7 @@ This is a standalone, dependency-free diagnostic for public Wi-Fi networks that
 will not finish their sign-in or captive-portal flow. It collects a time-bounded
 support bundle with DNS, routing, TCP, HTTP, HTTPS, and packet-level evidence.
 
-## Quick use
+## Quick use with uv
 
 Use it only on a device and network connection you own or are authorized to
 diagnose. The bundle can contain sensitive network identifiers, portal URLs,
@@ -14,17 +14,16 @@ Connect to the problematic Wi-Fi, then open Terminal and run:
 
 ```sh
 cd /path/to/captive-portal-diagnostics
-python3 captive_portal_diagnose.py
+make sync
+uv run captive-portal-diagnose
 ```
 
-To install commands from a source checkout:
+For a short test run, use:
 
 ```sh
-python3 -m pip install .
-captive-portal-diagnose
+uv run captive-portal-diagnose --duration 60
 ```
 
-For a short test run, use `python3 captive_portal_diagnose.py --duration 60`.
 The tool asks before collecting anything and then asks for your administrator
 password solely to start `tcpdump`. Type the password normally; Terminal will
 not display any characters. It opens a browser detection page and records for
@@ -39,19 +38,26 @@ Each run writes a timestamped folder and ZIP to
 trusted support team specifically needs complete packets; use `--max-pcap-mib 0`
 only when you deliberately accept an unlimited capture.
 
+## Optional standalone binary
+
+Build a standalone executable for the current operating system and CPU:
+
+```sh
+make build
+./dist/captive-portal-diagnose
+```
+
+`make install` copies that binary to `~/.local/bin` by default. Use
+`make install INSTALL_DIR=/usr/local/bin` only when a machine-wide installation
+is appropriate.
+
 ## Make a safe review file for an issue report or chat
 
 Do **not** upload the ZIP, `capture.pcap`, raw command files, or raw probe files
 to a public issue or chat. Instead, create the deliberately reduced review file:
 
 ```sh
-python3 make_safe_review.py ~/Desktop/CaptivePortalDiagnostics/captive-portal-YYYYMMDD-HHMMSS
-```
-
-After installation, the equivalent command is:
-
-```sh
-captive-portal-safe-review ~/Desktop/CaptivePortalDiagnostics/captive-portal-YYYYMMDD-HHMMSS
+uv run captive-portal-safe-review ~/Desktop/CaptivePortalDiagnostics/captive-portal-YYYYMMDD-HHMMSS
 ```
 
 Upload only the reported `safe-review.json` file. It retains run status, artifact
@@ -71,13 +77,13 @@ fragments.
 - A manifest, tcpdump diagnostics, and SHA-256 checksums.
 
 The script supports macOS and Linux and needs Python 3.10+ plus the operating
-system's `tcpdump` for packet capture. Use `python3 captive_portal_diagnose.py
+system's `tcpdump` for packet capture. Use `uv run captive-portal-diagnose
 --help` to see all options.
 
 ## Development
 
 ```sh
-uv sync --group dev
+make sync
 make check
 ```
 
