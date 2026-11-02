@@ -1,0 +1,17 @@
+# Generated diagnostic evidence: never commit these files.
+CaptivePortalDiagnostics/
+*.pcap
+*.pcapng
+*.zip
+safe-review*.json
+
+# Python and local tooling.
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.venv/
+dist/
+build/
+*.egg-info/
