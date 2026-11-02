@@ -25,7 +25,7 @@ import urllib.request
 import webbrowser
 import zipfile
 from dataclasses import dataclass
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, TextIO
 
@@ -99,7 +99,7 @@ class NoRedirectHandler(urllib.request.HTTPRedirectHandler):
 
 def utc_now() -> str:
     """Return an ISO-8601 UTC timestamp."""
-    return datetime.now(UTC).isoformat().replace("+00:00", "Z")
+    return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
 
 def parse_args(argv: list[str] | None = None) -> CliArgs:
